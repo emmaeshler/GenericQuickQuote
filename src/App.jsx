@@ -3647,7 +3647,49 @@ I'll match your description to our products, confirm quantities, and help you bu
                           <Button
                             variant="outlined"
                             startIcon={<SendIcon />}
-                            href="mailto:?subject=Quote%20for%20Warehouse%20Facility%20A&body=Please%20find%20your%20quote%20attached."
+                            href={`mailto:?subject=${encodeURIComponent(`Quote for ${
+                              message.quoteType === 'like-item-vests' ? 'Distribution Center B' :
+                              message.quoteType === 'bulk-reorder' ? 'Manufacturing Plant C' :
+                              message.quoteType === 'file-upload-po' ? 'Logistics Hub D' :
+                              'Warehouse Facility A'
+                            }`)}&body=${encodeURIComponent(`Hi,
+
+Please find your budgetary quote below:
+
+Client: ${message.quoteType === 'like-item-vests' ? 'Distribution Center B' : message.quoteType === 'bulk-reorder' ? 'Manufacturing Plant C' : message.quoteType === 'file-upload-po' ? 'Logistics Hub D' : 'Warehouse Facility A'}
+Market Segment: ${message.quoteType === 'bulk-reorder' ? 'Manufacturing' : message.quoteType === 'file-upload-po' ? 'Logistics & Distribution' : 'Industrial Distribution'}
+Estimate: ${message.quoteType === 'like-item-vests' ? '$2,100 - $2,550' : message.quoteType === 'bulk-reorder' ? '$8,500 - $10,200' : message.quoteType === 'file-upload-po' ? '$3,200 - $3,800' : '$4,200 - $5,800'}
+
+${message.quoteType === 'file-upload-po' ? `Products (from PO-2024-0847_LineItems.xlsx):
+• SAF-100: Safety Glasses - 500 units @ $2.50 = $1,250
+• GLV-200: Nitrile Gloves - 200 units @ $3.25 = $650
+• PKG-300: Pallet Wrap - 300 units @ $4.50 = $1,350
+• TRY-305: Produce Display Tray - 150 units @ $2.80 = $420 (AI-matched)
+• BOX-400: Corrugated Boxes - 250 units @ $1.40 = $350 (AI-matched)
+
+Note: 2 items were successfully matched using AI-powered product similarity analysis.` :
+message.quoteType === 'like-item-vests' ? `Products:
+• VES-200-L: Safety Vest - Large (Custom 2-color logo) - 80 units
+• VES-200-XL: Safety Vest - X-Large (Custom 2-color logo) - 80 units
+• VES-200-M: Safety Vest - Medium (Custom 2-color logo) - 40 units
+
+Note: Custom printing with 2-3 week lead time. Price range depends on artwork complexity.` :
+message.quoteType === 'bulk-reorder' ? `Products:
+• GLV-250: Work Gloves - 20 cases @ $18.50 = $3,700
+• SAF-150: Safety Goggles - 400 units @ $3.25 = $1,300
+• RAG-001: Industrial Wipers - 12 boxes @ $24.00 = $288
+• GLV-200: Nitrile Gloves - 50 packs @ $12.50 = $625
+
+Note: All SKUs validated and confirmed with specified quantities.` : `Products:
+• GLV-250: Work Gloves - 20 cases
+• Additional items as discussed
+
+Note: Budgetary pricing based on similar catalog products.`}
+
+Please let me know if you have any questions or need any adjustments.
+
+Best regards,
+Insight Quick Quote Team`)}`}
                             sx={{
                               borderColor: '#00446A',
                               color: '#00446A',
