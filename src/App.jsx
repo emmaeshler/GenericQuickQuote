@@ -3744,39 +3744,38 @@ Insight Quick Quote Team`)}`}
                           >
                             Push to Salesforce
                           </Button>
-                          {message.quoteType === 'default' && (
-                            <Button
-                              variant="outlined"
-                              sx={{
-                                borderColor: '#00446A',
-                                color: '#00446A',
-                                textTransform: 'none',
-                                '&:hover': {
-                                  borderColor: '#003350',
-                                  bgcolor: 'rgba(0, 68, 106, 0.04)'
-                                }
-                              }}
-                              onClick={() => {
-                                setMessages(prev => [...prev, {
-                                  type: 'system',
-                                  isProductList: true,
-                                  text: `**Pricing Explanation for Warehouse Facility A**
+                          <Button
+                            variant="outlined"
+                            sx={{
+                              borderColor: '#00446A',
+                              color: '#00446A',
+                              textTransform: 'none',
+                              '&:hover': {
+                                borderColor: '#003350',
+                                bgcolor: 'rgba(0, 68, 106, 0.04)'
+                              }
+                            }}
+                            onClick={() => {
+                              setMessages(prev => [...prev, {
+                                type: 'system',
+                                isProductList: true,
+                                text: `Pricing Explanation for Warehouse Facility A
 
-**Why a Range Instead of Exact Price?**
+Why a Range Instead of Exact Price?
 
 This quote provides a budgetary range ($4,200 - $5,800) rather than a fixed price due to several variable factors:
 
-**Market Factors:**
-• **Raw Material Volatility:** Leather and synthetic material costs have fluctuated 8-12% in Q4 2024 due to supply chain adjustments
-• **Freight Costs:** Current carrier rates show a $200-400 variance depending on pickup scheduling and route optimization
-• **Vendor Availability:** Primary supplier offering 5% volume discount if ordered within 2 weeks; alternative supplier pricing runs 7% higher
+Market Factors:
+• Raw Material Volatility: Leather and synthetic material costs have fluctuated 8-12% in Q4 2024 due to supply chain adjustments
+• Freight Costs: Current carrier rates show a $200-400 variance depending on pickup scheduling and route optimization
+• Vendor Availability: Primary supplier offering 5% volume discount if ordered within 2 weeks; alternative supplier pricing runs 7% higher
 
-**Timing Considerations:**
-• **MOQ Flexibility:** Meeting minimum order quantity (20 cases vs. requested 15) affects unit pricing by approximately $185 per case
-• **Lead Time:** Standard 5-7 day delivery at base pricing; expedited 2-3 day adds 10-15% premium
-• **Payment Terms:** Net-30 pricing shown; Net-60 terms would add 3% to account for extended credit
+Timing Considerations:
+• MOQ Flexibility: Meeting minimum order quantity (20 cases vs. requested 15) affects unit pricing by approximately $185 per case
+• Lead Time: Standard 5-7 day delivery at base pricing; expedited 2-3 day adds 10-15% premium
+• Payment Terms: Net-30 pricing shown; Net-60 terms would add 3% to account for extended credit
 
-**Product-Specific Variables:**
+Product-Specific Variables:
 • GLV-250 Specification: Final price depends on confirmation of leather palm vs. synthetic alternative (12% cost difference)
 • Quality Grade: Range accounts for both standard and premium-grade options based on your team's final selection
 • Packaging: Bulk case pricing vs. individual retail packaging affects per-unit cost by $0.80-1.20
@@ -3786,13 +3785,12 @@ The range is designed to provide budget certainty while accommodating these real
 
 Next Steps:
 Reply with your preferences on timeline and specifications, and I'll provide a refined estimate within 24 hours.`,
-                                  timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
-                                }])
-                              }}
-                            >
-                              Explain this price
-                            </Button>
-                          )}
+                                timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+                              }])
+                            }}
+                          >
+                            Explain this price
+                          </Button>
                         </Box>
 
                         <Typography variant="caption" sx={{ color: '#666', display: 'block', mt: 2 }}>
