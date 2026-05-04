@@ -340,7 +340,10 @@ function App() {
   const handleAttachFile = () => {
     handleClose()
 
-    if (currentStep === 0) {
+    if (currentStep === 25) {
+      // PO file upload workflow
+      handlePOFileUpload()
+    } else if (currentStep === 0) {
       // First file upload
       setMessages([{
         type: 'user',
@@ -738,7 +741,7 @@ function App() {
       setMessages(prev => [...prev, {
         type: 'system',
         isQuote: true,
-        quoteType: currentStep === 15 ? 'like-item-vests' : currentStep === 22 ? 'bulk-reorder' : 'default',
+        quoteType: currentStep === 15 ? 'like-item-vests' : currentStep === 29 ? 'file-upload-po' : currentStep === 22 ? 'bulk-reorder' : 'default',
         timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
       }])
     }, 2000)
@@ -991,6 +994,134 @@ function App() {
     }, 2000)
   }
 
+  const startFileUploadPODemo = () => {
+    // Start the file upload PO demo with detailed instructions
+    setMessages([{
+      type: 'system',
+      text: `Tell me what you need, and I'll find it in our catalog.
+
+You can describe products in plain language or provide SKU numbers. For example: "I need 500 aluminum brackets" • "ITM-1001 qty 200" • "Heavy-duty mounting plates, black powder coat finish"
+
+I'll match your description to our products, confirm quantities, and help you build a quote`,
+      timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    }])
+    setCurrentStep(25) // PO upload workflow - waiting for attachment
+    setWorkflowIndicator('upload-file')
+  }
+
+  const handlePOFileUpload = () => {
+    // User uploaded file
+    setMessages(prev => [...prev, {
+      type: 'user',
+      text: 'User attached "PO-2024-0847_LineItems.xlsx"',
+      timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    }])
+    setWorkflowIndicator(null)
+
+    // Show parsing indicator
+    setIsThinking(true)
+
+    // Show product table after parsing
+    setTimeout(() => {
+      setIsThinking(false)
+      setMessages(prev => [...prev, {
+        type: 'system',
+        isProductTable: true,
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+        products: [
+          { id: 1, sku: 'SAF-100', description: 'Safety Glasses - Clear Lens', qty: 500, variant: null, match: 'matched' },
+          { id: 2, sku: 'GLV-200', description: 'Nitrile Gloves - Powder Free', qty: 200, variant: null, match: 'matched' },
+          { id: 3, sku: 'PKG-300', description: 'Pallet Wrap - Stretch Film 18"', qty: 300, variant: '1500ft roll', match: 'matched' },
+          { id: 4, sku: null, description: 'Legacy produce tray - old model PT-2020', qty: 150, variant: null, match: 'review', possibleMatches: 2 },
+          { id: 5, sku: null, description: 'corrugated boxes, kraft liner', qty: 250, variant: null, match: 'review', possibleMatches: 5 }
+        ],
+        matchedCount: 3,
+        totalCount: 5
+      }])
+
+      // Ask about resolving items
+      setTimeout(() => {
+        setMessages(prev => [...prev, {
+          type: 'system',
+          text: '3/5 items resolved. Would you like to resolve the remaining items or remove from quote?',
+          timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+        }])
+        setCurrentStep(26) // Waiting for resolution response
+        setChatInput('resolve items')
+        setWorkflowIndicator('send-resolve')
+      }, 1000)
+    }, 3000)
+  }
+
+  const handleResolveItemsResponse = () => {
+    // User said yes to resolving
+    setMessages(prev => [...prev, {
+      type: 'user',
+      text: chatInput,
+      timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    }])
+    setChatInput('')
+    setWorkflowIndicator(null)
+
+    // Show suggestions for first item
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        type: 'system',
+        text: 'Here are possible matches for "Legacy produce tray - old model PT-2020":',
+        isSuggestions: true,
+        suggestions: [
+          { sku: 'TRY-305', name: 'Produce Display Tray - Current Model', confidence: 95 },
+          { sku: 'TRY-200', name: 'Standard Produce Tray - White', confidence: 78 },
+          { sku: 'TRY-150', name: 'Lightweight Display Tray', confidence: 62 }
+        ],
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+      }])
+      setCurrentStep(27) // Show first item suggestions
+    }, 500)
+  }
+
+  const handleSelectFirstSuggestion = (suggestion) => {
+    setMessages(prev => [...prev, {
+      type: 'user',
+      text: `Selected: ${suggestion.sku} - ${suggestion.name}`,
+      timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    }])
+
+    // Show suggestions for second item
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        type: 'system',
+        text: 'Here are possible matches for "corrugated boxes, kraft liner":',
+        isSuggestions: true,
+        suggestions: [
+          { sku: 'BOX-400', name: 'Corrugated Shipping Boxes - Kraft 200lb', confidence: 92 },
+          { sku: 'BOX-350', name: 'Heavy-Duty Corrugated Box - Brown', confidence: 85 },
+          { sku: 'BOX-250', name: 'Standard Kraft Boxes - ECT-32', confidence: 71 }
+        ],
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+      }])
+      setCurrentStep(28) // Show second item suggestions
+    }, 500)
+  }
+
+  const handleSelectSecondSuggestion = (suggestion) => {
+    setMessages(prev => [...prev, {
+      type: 'user',
+      text: `Selected: ${suggestion.sku} - ${suggestion.name}`,
+      timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    }])
+
+    // Show all items resolved message
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        type: 'system',
+        text: 'All items validated successfully. You can generate a quote or add more products.',
+        timestamp: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+      }])
+      setCurrentStep(29) // Show follow-up card
+      setWorkflowIndicator('generate-quote-bulk')
+    }, 500)
+  }
 
   const toggleClient = (clientId) => {
     setExpandedClients(prev => ({
@@ -1328,7 +1459,9 @@ function App() {
       id: 4,
       name: 'Logistics Hub D',
       quoteCount: 1,
-      demos: []
+      demos: [
+        { title: 'File upload - Purchase order with mixed matches', type: 'file-upload-po', hasPlay: true }
+      ]
     },
   ]
 
@@ -1661,6 +1794,8 @@ function App() {
                                 startLikeItemPricingDemo()
                               } else if (demo.type === 'bulk-reorder') {
                                 startBulkReorderDemo()
+                              } else if (demo.type === 'file-upload-po') {
+                                startFileUploadPODemo()
                               }
                             }}
                           >
@@ -2850,7 +2985,7 @@ function App() {
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              {messages.length === 0 ? 'New Quote' : selectedClient === 'Manufacturing Plant C' ? 'Bulk Order Known Skus' : 'Product Search'}
+              {messages.length === 0 ? 'New Quote' : selectedClient === 'Manufacturing Plant C' ? 'Bulk Order Known Skus' : selectedClient === 'Logistics Hub D' ? 'Upload Excel to get Quote' : selectedClient === 'Distribution Center B' ? 'Custom Logo Quote' : 'Product Search'}
             </Typography>
             {messages.length > 0 && (
               <IconButton size="small" sx={{ color: '#666' }}>
@@ -3147,14 +3282,14 @@ function App() {
                         {/* Quote Header */}
                         <Box sx={{ mb: 3 }}>
                           <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-                            {message.quoteType === 'like-item-vests' ? 'Distribution Center B' : message.quoteType === 'bulk-reorder' ? 'Manufacturing Plant C' : 'Warehouse Facility A'}
+                            {message.quoteType === 'like-item-vests' ? 'Distribution Center B' : message.quoteType === 'bulk-reorder' ? 'Manufacturing Plant C' : message.quoteType === 'file-upload-po' ? 'Logistics Hub D' : 'Warehouse Facility A'}
                           </Typography>
                           <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
                             <Typography variant="body2" sx={{ color: '#666' }}>
                               Tier: <strong>80</strong>
                             </Typography>
                             <Typography variant="body2" sx={{ color: '#666' }}>
-                              Market Segment: <strong>{message.quoteType === 'bulk-reorder' ? 'Manufacturing' : 'Industrial Distribution'}</strong>
+                              Market Segment: <strong>{message.quoteType === 'bulk-reorder' ? 'Manufacturing' : message.quoteType === 'file-upload-po' ? 'Logistics & Distribution' : 'Industrial Distribution'}</strong>
                             </Typography>
                           </Box>
                           <Box>
@@ -3174,7 +3309,7 @@ function App() {
                               </Typography>
                             </Box>
                             <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                              {message.quoteType === 'like-item-vests' ? '$2,100 - $2,550' : message.quoteType === 'bulk-reorder' ? '$8,500 - $10,200' : '$4,200 - $5,800'}
+                              {message.quoteType === 'like-item-vests' ? '$2,100 - $2,550' : message.quoteType === 'bulk-reorder' ? '$8,500 - $10,200' : message.quoteType === 'file-upload-po' ? '$3,200 - $3,800' : '$4,200 - $5,800'}
                             </Typography>
                           </Box>
                         </Box>
@@ -3328,6 +3463,89 @@ function App() {
                                 </Typography>
                               </Box>
                             </>
+                          ) : message.quoteType === 'file-upload-po' ? (
+                            <>
+                              <Box sx={{
+                                display: 'grid',
+                                gridTemplateColumns: '2fr 1fr 1fr 1.5fr 1fr',
+                                p: 1.5,
+                                borderBottom: '1px solid #e0e0e0'
+                              }}>
+                                <Box>
+                                  <Typography variant="body2" sx={{ fontWeight: 600 }}>SAF-100</Typography>
+                                  <Typography variant="caption" sx={{ color: '#666' }}>SAFETY GLASSES - CLEAR LENS</Typography>
+                                </Box>
+                                <Typography variant="body2">500 units</Typography>
+                                <Typography variant="body2">$2.50</Typography>
+                                <Typography variant="body2">$1,250</Typography>
+                                <Typography variant="body2">—</Typography>
+                              </Box>
+                              <Box sx={{
+                                display: 'grid',
+                                gridTemplateColumns: '2fr 1fr 1fr 1.5fr 1fr',
+                                p: 1.5,
+                                borderBottom: '1px solid #e0e0e0'
+                              }}>
+                                <Box>
+                                  <Typography variant="body2" sx={{ fontWeight: 600 }}>GLV-200</Typography>
+                                  <Typography variant="caption" sx={{ color: '#666' }}>NITRILE GLOVES - POWDER FREE</Typography>
+                                </Box>
+                                <Typography variant="body2">200 units</Typography>
+                                <Typography variant="body2">$3.25</Typography>
+                                <Typography variant="body2">$650</Typography>
+                                <Typography variant="body2">—</Typography>
+                              </Box>
+                              <Box sx={{
+                                display: 'grid',
+                                gridTemplateColumns: '2fr 1fr 1fr 1.5fr 1fr',
+                                p: 1.5,
+                                borderBottom: '1px solid #e0e0e0'
+                              }}>
+                                <Box>
+                                  <Typography variant="body2" sx={{ fontWeight: 600 }}>PKG-300</Typography>
+                                  <Typography variant="caption" sx={{ color: '#666' }}>PALLET WRAP - STRETCH FILM 18"</Typography>
+                                </Box>
+                                <Typography variant="body2">300 units</Typography>
+                                <Typography variant="body2">$4.50</Typography>
+                                <Typography variant="body2">$1,350</Typography>
+                                <Typography variant="body2" sx={{ color: '#ff9800', fontStyle: 'italic' }}>
+                                  1500ft roll
+                                </Typography>
+                              </Box>
+                              <Box sx={{
+                                display: 'grid',
+                                gridTemplateColumns: '2fr 1fr 1fr 1.5fr 1fr',
+                                p: 1.5,
+                                borderBottom: '1px solid #e0e0e0'
+                              }}>
+                                <Box>
+                                  <Typography variant="body2" sx={{ fontWeight: 600 }}>TRY-305</Typography>
+                                  <Typography variant="caption" sx={{ color: '#666' }}>PRODUCE DISPLAY TRAY - CURRENT MODEL</Typography>
+                                </Box>
+                                <Typography variant="body2">150 units</Typography>
+                                <Typography variant="body2">$2.80</Typography>
+                                <Typography variant="body2">$420</Typography>
+                                <Typography variant="body2" sx={{ color: '#2e7d32', fontStyle: 'italic' }}>
+                                  Matched via AI
+                                </Typography>
+                              </Box>
+                              <Box sx={{
+                                display: 'grid',
+                                gridTemplateColumns: '2fr 1fr 1fr 1.5fr 1fr',
+                                p: 1.5
+                              }}>
+                                <Box>
+                                  <Typography variant="body2" sx={{ fontWeight: 600 }}>BOX-400</Typography>
+                                  <Typography variant="caption" sx={{ color: '#666' }}>CORRUGATED SHIPPING BOXES - KRAFT 200LB</Typography>
+                                </Box>
+                                <Typography variant="body2">250 units</Typography>
+                                <Typography variant="body2">$1.40</Typography>
+                                <Typography variant="body2">$350</Typography>
+                                <Typography variant="body2" sx={{ color: '#2e7d32', fontStyle: 'italic' }}>
+                                  Matched via AI
+                                </Typography>
+                              </Box>
+                            </>
                           ) : (
                             <>
                               <Box sx={{
@@ -3397,6 +3615,18 @@ function App() {
                                 </Typography>
                                 <Typography component="li" variant="body2" sx={{ color: '#333' }}>
                                   <strong>Bulk Order:</strong> All 5 SKUs validated and confirmed with customer-specified quantities
+                                </Typography>
+                              </>
+                            ) : message.quoteType === 'file-upload-po' ? (
+                              <>
+                                <Typography component="li" variant="body2" sx={{ color: '#333', mb: 1 }}>
+                                  <strong>AI-Powered Matching:</strong> 2 unmatched items successfully resolved using product similarity analysis (Legacy produce tray → TRY-305, Corrugated boxes → BOX-400)
+                                </Typography>
+                                <Typography component="li" variant="body2" sx={{ color: '#333', mb: 1 }}>
+                                  <strong>File Upload Source:</strong> PO-2024-0847_LineItems.xlsx parsed successfully with 5/5 items matched to catalog
+                                </Typography>
+                                <Typography component="li" variant="body2" sx={{ color: '#333' }}>
+                                  <strong>Quote Accuracy:</strong> All quantities and specifications verified against uploaded purchase order. Standard lead times apply unless otherwise noted.
                                 </Typography>
                               </>
                             ) : (
@@ -3479,7 +3709,139 @@ function App() {
                         </Typography>
                       </Box>
                     )}
-                    {!message.isHeadsUp && !message.isSuccess && !message.isQuote && (
+                    {message.isProgress && (
+                      <Box>
+                        <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+                          {message.text}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+                          <Box sx={{ flexGrow: 1, bgcolor: '#e0e0e0', borderRadius: 1, height: 8 }}>
+                            <Box sx={{
+                              width: `${message.progress}%`,
+                              bgcolor: '#00446A',
+                              height: '100%',
+                              borderRadius: 1,
+                              transition: 'width 0.3s ease'
+                            }} />
+                          </Box>
+                        </Box>
+                        <Typography variant="caption" sx={{ color: '#666' }}>
+                          {message.progress}% complete
+                        </Typography>
+                        <Typography variant="caption" sx={{ color: '#666', display: 'block', mt: 0.5 }}>
+                          {message.timestamp}
+                        </Typography>
+                      </Box>
+                    )}
+                    {message.isAttachment && (
+                      <Box>
+                        <Box sx={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          bgcolor: '#f5f5f5',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: 1,
+                          p: 1.5,
+                          mb: 0.5
+                        }}>
+                          <UploadIcon sx={{ color: '#00446A', fontSize: 20 }} />
+                          <Typography variant="body2">
+                            {message.text.replace('[Attachment] ', '')}
+                          </Typography>
+                        </Box>
+                        <Typography variant="caption" sx={{ color: '#666' }}>
+                          {message.timestamp}
+                        </Typography>
+                      </Box>
+                    )}
+                    {message.isProductTable && (
+                      <Box>
+                        <Box sx={{
+                          bgcolor: '#fff',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: 1,
+                          overflow: 'hidden',
+                          mb: 0.5
+                        }}>
+                          {/* Table Header */}
+                          <Box sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            p: 2,
+                            borderBottom: '1px solid #e0e0e0',
+                            bgcolor: '#f8f9fa'
+                          }}>
+                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                              Parsed Items from PO-2024-0847_LineItems.xlsx
+                            </Typography>
+                            <Typography variant="caption" sx={{
+                              color: message.products?.filter(p => p.match === 'matched').length === message.products?.length ? '#2e7d32' : '#ed6c02',
+                              fontWeight: 600
+                            }}>
+                              {message.products?.filter(p => p.match === 'matched').length}/{message.products?.length} items resolved
+                            </Typography>
+                          </Box>
+
+                          {/* Column Headers */}
+                          <Box sx={{
+                            display: 'grid',
+                            gridTemplateColumns: '50px 150px 1fr 120px 150px',
+                            gap: 2,
+                            p: 1.5,
+                            borderBottom: '1px solid #e0e0e0',
+                            bgcolor: '#fafafa',
+                            fontSize: '0.75rem',
+                            fontWeight: 600,
+                            color: '#666'
+                          }}>
+                            <Box sx={{ textAlign: 'center' }}>STATUS</Box>
+                            <Box>SKU</Box>
+                            <Box>DESCRIPTION</Box>
+                            <Box sx={{ textAlign: 'center' }}>QTY</Box>
+                            <Box>VARIANT</Box>
+                          </Box>
+
+                          {/* Product Rows */}
+                          {message.products?.map((product, index) => (
+                            <Box key={index} sx={{
+                              display: 'grid',
+                              gridTemplateColumns: '50px 150px 1fr 120px 150px',
+                              gap: 2,
+                              p: 1.5,
+                              borderBottom: index < message.products.length - 1 ? '1px solid #e0e0e0' : 'none',
+                              bgcolor: product.match === 'review' ? '#fff3e0' : 'transparent',
+                              alignItems: 'center'
+                            }}>
+                              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                {product.match === 'matched' ? (
+                                  <CheckCircleIcon sx={{ color: '#2e7d32', fontSize: 20 }} />
+                                ) : (
+                                  <WarningIcon sx={{ color: '#ed6c02', fontSize: 20 }} />
+                                )}
+                              </Box>
+                              <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                                {product.sku}
+                              </Typography>
+                              <Typography variant="body2">
+                                {product.description}
+                              </Typography>
+                              <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                                {product.qty}
+                              </Typography>
+                              <Typography variant="body2" sx={{ color: '#666' }}>
+                                {product.variant || '—'}
+                              </Typography>
+                            </Box>
+                          ))}
+                        </Box>
+                        <Typography variant="caption" sx={{ color: '#666' }}>
+                          {message.timestamp}
+                        </Typography>
+                      </Box>
+                    )}
+                    {!message.isHeadsUp && !message.isSuccess && !message.isQuote && !message.isProgress && !message.isAttachment && !message.isProductTable && (
                       <>
                         <Typography
                           variant="body2"
@@ -3518,6 +3880,57 @@ function App() {
                           >
                             Generate Quote
                           </Button>
+                        )}
+                        {message.isSuggestions && message.suggestions && (
+                          <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                            {message.suggestions.map((suggestion, index) => (
+                              <Box
+                                key={index}
+                                onClick={() => {
+                                  if (currentStep === 27) {
+                                    handleSelectFirstSuggestion(suggestion)
+                                  } else if (currentStep === 28) {
+                                    handleSelectSecondSuggestion(suggestion)
+                                  }
+                                }}
+                                sx={{
+                                  p: 2,
+                                  border: '1px solid #e0e0e0',
+                                  borderRadius: 1,
+                                  cursor: 'pointer',
+                                  transition: 'all 0.2s',
+                                  bgcolor: '#fff',
+                                  '&:hover': {
+                                    bgcolor: '#f5f5f5',
+                                    borderColor: '#00446A',
+                                    transform: 'translateX(4px)'
+                                  }
+                                }}
+                              >
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
+                                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                    {suggestion.sku}
+                                  </Typography>
+                                  <Box sx={{
+                                    px: 1,
+                                    py: 0.5,
+                                    bgcolor: suggestion.confidence >= 90 ? '#e8f5e9' : suggestion.confidence >= 75 ? '#fff3e0' : '#f5f5f5',
+                                    borderRadius: 0.5
+                                  }}>
+                                    <Typography variant="caption" sx={{
+                                      color: suggestion.confidence >= 90 ? '#2e7d32' : suggestion.confidence >= 75 ? '#ed6c02' : '#666',
+                                      fontWeight: 600
+                                    }}>
+                                      {suggestion.confidence}% match
+                                    </Typography>
+                                  </Box>
+                                </Box>
+                                <Typography variant="body2" sx={{ color: '#666' }}>
+                                  {suggestion.name}
+                                </Typography>
+                              </Box>
+                            ))}
+                          </Box>
                         )}
                         <Typography variant="caption" sx={{ color: '#666' }}>
                           {message.timestamp}
@@ -3744,7 +4157,7 @@ function App() {
               )}
 
               {/* Follow-up Card */}
-              {(currentStep === 4 || currentStep === 7 || currentStep === 15 || currentStep === 22) && (
+              {(currentStep === 4 || currentStep === 7 || currentStep === 15 || currentStep === 22 || currentStep === 29) && (
                 <Box
                   sx={{
                     display: 'flex',
@@ -4241,6 +4654,24 @@ function App() {
                 }
               }}
             >
+              {workflowIndicator === 'upload-file' && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: -4,
+                    right: -4,
+                    width: 10,
+                    height: 10,
+                    borderRadius: '50%',
+                    bgcolor: '#ffc107',
+                    animation: 'pulse 2s infinite',
+                    '@keyframes pulse': {
+                      '0%, 100%': { opacity: 1 },
+                      '50%': { opacity: 0.5 }
+                    }
+                  }}
+                />
+              )}
               <AddIcon />
             </IconButton>
 
@@ -4257,9 +4688,26 @@ function App() {
                 horizontal: 'left',
               }}
             >
-              <MenuItem onClick={handleAttachFile}>
+              <MenuItem onClick={handleAttachFile} sx={{ position: 'relative' }}>
                 <AttachFileIcon sx={{ mr: 1, fontSize: 20 }} />
                 Attach file
+                {workflowIndicator === 'upload-file' && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      right: 8,
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      bgcolor: '#ffc107',
+                      animation: 'pulse 2s infinite',
+                      '@keyframes pulse': {
+                        '0%, 100%': { opacity: 1 },
+                        '50%': { opacity: 0.5 }
+                      }
+                    }}
+                  />
+                )}
               </MenuItem>
               <MenuItem onClick={handleFindItem}>
                 <InventoryIcon sx={{ mr: 1, fontSize: 20 }} />
@@ -4277,11 +4725,6 @@ function App() {
                 size="small"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
-                onFocus={() => {
-                  if (!chatInput && messages.length === 0) {
-                    setChatInput("I need to put together a quote for Apex's IL Consolidation Program — can you pull the details from the CRM?")
-                  }
-                }}
                 onKeyPress={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey && chatInput.trim() && messages.length === 0) {
                     e.preventDefault()
@@ -4337,6 +4780,9 @@ function App() {
                   } else if (currentStep === 21 && selectedClient) {
                     // Step 21: Bulk quantity confirm
                     handleBulkQuantityConfirm()
+                  } else if (currentStep === 26 && selectedClient) {
+                    // Step 26: Resolve items response
+                    handleResolveItemsResponse()
                   } else if (messages.length === 0 && currentStep === 0 && selectedClient) {
                     // Check if starting bulk reorder demo
                     if (selectedClient === 'Manufacturing Plant C') {
@@ -4349,7 +4795,7 @@ function App() {
                   }
                 }
               }}
-              disabled={!chatInput.trim() || (messages.length > 0 && currentStep !== 1 && currentStep !== 2 && currentStep !== 5 && currentStep !== 6 && currentStep !== 11 && currentStep !== 12 && currentStep !== 13 && currentStep !== 20 && currentStep !== 21 && currentStep > 0)}
+              disabled={!chatInput.trim() || (messages.length > 0 && currentStep !== 1 && currentStep !== 2 && currentStep !== 5 && currentStep !== 6 && currentStep !== 11 && currentStep !== 12 && currentStep !== 13 && currentStep !== 20 && currentStep !== 21 && currentStep !== 26 && currentStep > 0)}
               sx={{
                 bgcolor: chatInput.trim() && messages.length === 0 ? '#00446A' : '#e0e0e0',
                 color: chatInput.trim() && messages.length === 0 ? 'white' : 'inherit',
@@ -4362,7 +4808,7 @@ function App() {
                 position: 'relative'
               }}
             >
-              {['send-initial', 'send-item', 'send-quantity', 'send-second-search', 'send-second-item', 'send-like-item-initial', 'send-like-item-quantity', 'send-like-item-variant', 'send-like-item-confirm', 'send-bulk-initial', 'send-bulk-item', 'send-bulk-confirm'].includes(workflowIndicator) && (
+              {['send-initial', 'send-item', 'send-quantity', 'send-second-search', 'send-second-item', 'send-like-item-initial', 'send-like-item-quantity', 'send-like-item-variant', 'send-like-item-confirm', 'send-bulk-initial', 'send-bulk-item', 'send-bulk-confirm', 'send-resolve'].includes(workflowIndicator) && (
                 <Box
                   sx={{
                     position: 'absolute',
