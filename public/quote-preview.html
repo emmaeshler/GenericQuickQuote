@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANDARD QUOTE - RJW Justin's IL Consolidation Program</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: #00446A;
+            color: white;
+            padding: 24px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .header .logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .tabs {
+            background: white;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 0 40px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab {
+            padding: 16px 24px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .tab:hover {
+            background: #f9f9f9;
+            color: #00446A;
+        }
+
+        .tab.active {
+            border-bottom-color: #00446A;
+            color: #00446A;
+        }
+
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .metric {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00446A;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: #f9f9f9;
+        }
+
+        th {
+            text-align: left;
+            padding: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        th.right {
+            text-align: right;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        td.right {
+            text-align: right;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .total-row {
+            background: #f9f9f9;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .total-row td {
+            border-top: 2px solid #e0e0e0;
+            padding: 20px 16px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .lane-section {
+            margin-bottom: 32px;
+        }
+
+        .lane-header {
+            background: #00446A;
+            color: white;
+            padding: 12px 16px;
+            font-weight: 600;
+            border-radius: 4px 4px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">RJW LOGISTICS GROUP</div>
+        <h1>Justin's IL Consolidation Program</h1>
+        <div style="font-size: 14px;">April 28, 2026</div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('overview')">Overview</div>
+        <div class="tab" onclick="showTab('cvs')">CVS</div>
+        <div class="tab" onclick="showTab('kehe')">Kehe</div>
+        <div class="tab" onclick="showTab('supervalu')">SuperValu</div>
+        <div class="tab" onclick="showTab('other')">Other Retailers</div>
+        <div class="tab" onclick="showTab('freight-surcharge')">Freight Surcharge</div>
+    </div>
+
+    <div class="content">
+        <!-- OVERVIEW TAB - Annualized Summary -->
+        <div id="overview" class="tab-content active">
+            <h2 class="section-title">Annualized Quote Overview</h2>
+
+            <div class="overview-grid">
+                <div class="card">
+                    <h3>Total Annual Cost</h3>
+                    <div class="metric">$585,768</div>
+                    <div class="metric-label">Based on 117 shipments</div>
+                </div>
+
+                <div class="card">
+                    <h3>Annual Shipment Volume</h3>
+                    <div class="metric">117</div>
+                    <div class="metric-label">Across 4 retailers • 2,808 pallets</div>
+                </div>
+
+                <div class="card">
+                    <h3>Avg Pallets per Shipment</h3>
+                    <div class="metric">24</div>
+                    <div class="metric-label">Consolidation efficiency</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Warehouse Rates (Per Unit)</h3>
+                <div style="display: grid; gap: 12px; margin-top: 12px;">
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                        <span style="color: #666;">Case Picking</span>
+                        <span style="font-weight: 600; color: #00446A;">$0.37</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                        <span style="color: #666;">Pallet Handling</span>
+                        <span style="font-weight: 600; color: #00446A;">$9.50</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0;">
+                        <span style="color: #666;">Storage (per pallet/week)</span>
+                        <span style="font-weight: 600; color: #00446A;">$2.25</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                        <span style="color: #666;">BOL Fee</span>
+                        <span style="font-weight: 600; color: #00446A;">$50.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Client Details</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Client</div>
+                        <div class="info-value">Justin</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Opportunity / Project</div>
+                        <div class="info-value">IL Consolidation Program</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Date Range</div>
+                        <div class="info-value">Oct 2024 - Sep 2025</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Annualization</div>
+                        <div class="info-value">12-month lookback (full)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Annual Retailer Summary</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Retailer</th>
+                            <th class="right">Annual Shipments</th>
+                            <th class="right">Annual Pallets</th>
+                            <th class="right">Blended Rate</th>
+                            <th class="right">Annual Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CVS</td>
+                            <td class="right">48</td>
+                            <td class="right">1,152</td>
+                            <td class="right">$215/pallet</td>
+                            <td class="right">$247,680</td>
+                        </tr>
+                        <tr>
+                            <td>Kehe</td>
+                            <td class="right">34</td>
+                            <td class="right">816</td>
+                            <td class="right">$198/pallet</td>
+                            <td class="right">$161,568</td>
+                        </tr>
+                        <tr>
+                            <td>SuperValu</td>
+                            <td class="right">23</td>
+                            <td class="right">552</td>
+                            <td class="right">$205/pallet</td>
+                            <td class="right">$113,160</td>
+                        </tr>
+                        <tr>
+                            <td>Other Retailers</td>
+                            <td class="right">12</td>
+                            <td class="right">288</td>
+                            <td class="right">$220/pallet</td>
+                            <td class="right">$63,360</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td><strong>TOTAL</strong></td>
+                            <td class="right"><strong>117</strong></td>
+                            <td class="right"><strong>2,808</strong></td>
+                            <td class="right">—</td>
+                            <td class="right" style="color: #00446A;"><strong>$585,768</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CVS TAB -->
+        <div id="cvs" class="tab-content">
+            <h2 class="section-title">CVS Lane Analysis</h2>
+
+            <div class="overview-grid" style="margin-bottom: 32px;">
+                <div class="card">
+                    <h3>Total Shipments</h3>
+                    <div class="metric">48</div>
+                    <div class="metric-label">Annual volume</div>
+                </div>
+                <div class="card">
+                    <h3>Total Pallets</h3>
+                    <div class="metric">1,152</div>
+                    <div class="metric-label">Across all lanes</div>
+                </div>
+                <div class="card">
+                    <h3>Total Cost</h3>
+                    <div class="metric">$247,680</div>
+                    <div class="metric-label">Annual spend</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Lane Map - CVS Distribution Network</h3>
+                <div style="background: white; padding: 24px; border: 1px solid #e0e0e0; border-radius: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                        <!-- Lane 1 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Louisville, KY</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">115 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Indianapolis, IN</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">CVS DC</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lane 2 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Fresno, CA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">220 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Los Angeles, CA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">CVS DC</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lane 3 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Annapolis, MD</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">30 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Baltimore, MD</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">CVS DC</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lane 4 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Stone Mountain, GA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">17 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Atlanta, GA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">CVS DC</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Lane-by-Lane Breakdown</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th class="right">Shipments</th>
+                            <th class="right">Pallets</th>
+                            <th class="right">Rate per Pallet</th>
+                            <th class="right">Total Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Louisville, KY</td>
+                            <td>CVS DC - Indianapolis, IN</td>
+                            <td class="right">18</td>
+                            <td class="right">432</td>
+                            <td class="right">$185</td>
+                            <td class="right">$79,920</td>
+                        </tr>
+                        <tr>
+                            <td>Fresno, CA</td>
+                            <td>CVS DC - Los Angeles, CA</td>
+                            <td class="right">12</td>
+                            <td class="right">288</td>
+                            <td class="right">$240</td>
+                            <td class="right">$69,120</td>
+                        </tr>
+                        <tr>
+                            <td>Annapolis, MD</td>
+                            <td>CVS DC - Baltimore, MD</td>
+                            <td class="right">10</td>
+                            <td class="right">240</td>
+                            <td class="right">$210</td>
+                            <td class="right">$50,400</td>
+                        </tr>
+                        <tr>
+                            <td>Stone Mountain, GA</td>
+                            <td>CVS DC - Atlanta, GA</td>
+                            <td class="right">8</td>
+                            <td class="right">192</td>
+                            <td class="right">$250</td>
+                            <td class="right">$48,240</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2"><strong>CVS Total</strong></td>
+                            <td class="right"><strong>48</strong></td>
+                            <td class="right"><strong>1,152</strong></td>
+                            <td class="right">—</td>
+                            <td class="right" style="color: #00446A;"><strong>$247,680</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Cost Breakdown Section -->
+            <div class="card" style="margin-top: 24px;">
+                <h3>Detailed Cost Breakdown</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 16px;">
+                    <!-- Annual Quantity -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Annual Quantity</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>Total Outbound Pallets</td><td class="right"><strong>1,152</strong></td></tr>
+                            <tr><td>Total Inbound Pallets</td><td class="right"><strong>1,152</strong></td></tr>
+                            <tr><td>Total Outbound Weight</td><td class="right">1,866,240 lbs</td></tr>
+                            <tr><td>Total Cases Picked</td><td class="right">155,520</td></tr>
+                            <tr><td>Full Pallet %</td><td class="right" style="background: #fff9e6;">0%</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Warehouse Cost -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Warehouse Cost</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>BOL</td><td class="right">$57,600</td></tr>
+                            <tr><td>Pallet Labeling</td><td class="right">$2,880</td></tr>
+                            <tr><td>Shrink Wrap</td><td class="right">$7,488</td></tr>
+                            <tr><td>In/Out Handling</td><td class="right">$10,944</td></tr>
+                            <tr><td>Case Picking</td><td class="right">$57,542</td></tr>
+                            <tr style="border-top: 2px solid #e0e0e0;"><td><strong>Total Warehouse</strong></td><td class="right"><strong>$160,454</strong></td></tr>
+                            <tr><td style="font-size: 11px; color: #666;">Avg Weeks in Inventory</td><td class="right" style="background: #fff9e6; font-size: 11px;">&lt;4</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Freight Costs -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Freight Cost</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td colspan="2" style="font-weight: 600; padding-top: 8px;">Outbound</td></tr>
+                            <tr><td>Outbound Freight Dry</td><td class="right">$152,857</td></tr>
+                            <tr><td>Per LB</td><td class="right">$0.08</td></tr>
+                            <tr><td>Per Case</td><td class="right">$0.98</td></tr>
+                            <tr><td colspan="2" style="font-weight: 600; padding-top: 12px;">Inbound</td></tr>
+                            <tr><td>Inbound Freight Dry</td><td class="right">$95,596</td></tr>
+                            <tr><td>Per LB</td><td class="right">$0.05</td></tr>
+                            <tr><td>Per Case</td><td class="right">$0.61</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Annual Spend -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Annual Spend</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>Cost Per Case (w/o Inbound)</td><td class="right">$2.02</td></tr>
+                            <tr><td>Cost Per Case (w/ Inbound)</td><td class="right">$2.63</td></tr>
+                            <tr style="border-top: 2px solid #e0e0e0; padding-top: 8px;"><td><strong>Total w/o Inbound</strong></td><td class="right"><strong>$313,311</strong></td></tr>
+                            <tr style="background: #f0f7ff;"><td><strong>Total w/ Inbound</strong></td><td class="right" style="color: #00446A;"><strong>$408,907</strong></td></tr>
+                        </table>
+                        <div style="margin-top: 16px; padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #666;">
+                            <strong style="display: block; margin-bottom: 4px; color: #333;">Business Mix</strong>
+                            Dry Pallets: 1,152<br>
+                            Temp Control: 0
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KEHE TAB -->
+        <div id="kehe" class="tab-content">
+            <h2 class="section-title">Kehe Lane Analysis</h2>
+
+            <div class="overview-grid" style="margin-bottom: 32px;">
+                <div class="card">
+                    <h3>Total Shipments</h3>
+                    <div class="metric">34</div>
+                    <div class="metric-label">Annual volume</div>
+                </div>
+                <div class="card">
+                    <h3>Total Pallets</h3>
+                    <div class="metric">816</div>
+                    <div class="metric-label">Across all lanes</div>
+                </div>
+                <div class="card">
+                    <h3>Total Cost</h3>
+                    <div class="metric">$161,568</div>
+                    <div class="metric-label">Annual spend</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Lane Map - Kehe Distribution Network</h3>
+                <div style="background: white; padding: 24px; border: 1px solid #e0e0e0; border-radius: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                        <!-- Lane 1 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Louisville, KY</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">305 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Chicago, IL</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Kehe DC</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lane 2 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Delta, BC</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">140 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Seattle, WA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Kehe DC</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lane 3 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Oakdale, CA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">85 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Sacramento, CA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Kehe DC</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Lane-by-Lane Breakdown</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th class="right">Shipments</th>
+                            <th class="right">Pallets</th>
+                            <th class="right">Rate per Pallet</th>
+                            <th class="right">Total Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Louisville, KY</td>
+                            <td>Kehe DC - Chicago, IL</td>
+                            <td class="right">15</td>
+                            <td class="right">360</td>
+                            <td class="right">$195</td>
+                            <td class="right">$70,200</td>
+                        </tr>
+                        <tr>
+                            <td>Delta, BC</td>
+                            <td>Kehe DC - Seattle, WA</td>
+                            <td class="right">10</td>
+                            <td class="right">240</td>
+                            <td class="right">$205</td>
+                            <td class="right">$49,200</td>
+                        </tr>
+                        <tr>
+                            <td>Oakdale, CA</td>
+                            <td>Kehe DC - Sacramento, CA</td>
+                            <td class="right">9</td>
+                            <td class="right">216</td>
+                            <td class="right">$195</td>
+                            <td class="right">$42,168</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2"><strong>Kehe Total</strong></td>
+                            <td class="right"><strong>34</strong></td>
+                            <td class="right"><strong>816</strong></td>
+                            <td class="right">—</td>
+                            <td class="right" style="color: #00446A;"><strong>$161,568</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Cost Breakdown Section -->
+            <div class="card" style="margin-top: 24px;">
+                <h3>Detailed Cost Breakdown</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 16px;">
+                    <!-- Annual Quantity -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Annual Quantity</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>Total Outbound Pallets</td><td class="right"><strong>816</strong></td></tr>
+                            <tr><td>Total Inbound Pallets</td><td class="right"><strong>816</strong></td></tr>
+                            <tr><td>Total Outbound Weight</td><td class="right">1,321,920 lbs</td></tr>
+                            <tr><td>Total Cases Picked</td><td class="right">110,160</td></tr>
+                            <tr><td>Full Pallet %</td><td class="right" style="background: #fff9e6;">0%</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Warehouse Cost -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Warehouse Cost</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>BOL</td><td class="right">$40,800</td></tr>
+                            <tr><td>Pallet Labeling</td><td class="right">$2,040</td></tr>
+                            <tr><td>Shrink Wrap</td><td class="right">$5,304</td></tr>
+                            <tr><td>In/Out Handling</td><td class="right">$7,752</td></tr>
+                            <tr><td>Case Picking</td><td class="right">$40,759</td></tr>
+                            <tr style="border-top: 2px solid #e0e0e0;"><td><strong>Total Warehouse</strong></td><td class="right"><strong>$113,655</strong></td></tr>
+                            <tr><td style="font-size: 11px; color: #666;">Avg Weeks in Inventory</td><td class="right" style="background: #fff9e6; font-size: 11px;">&lt;4</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Freight Costs -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Freight Cost</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td colspan="2" style="font-weight: 600; padding-top: 8px;">Outbound</td></tr>
+                            <tr><td>Outbound Freight Dry</td><td class="right">$108,293</td></tr>
+                            <tr><td>Per LB</td><td class="right">$0.08</td></tr>
+                            <tr><td>Per Case</td><td class="right">$0.98</td></tr>
+                            <tr><td colspan="2" style="font-weight: 600; padding-top: 12px;">Inbound</td></tr>
+                            <tr><td>Inbound Freight Dry</td><td class="right">$67,689</td></tr>
+                            <tr><td>Per LB</td><td class="right">$0.05</td></tr>
+                            <tr><td>Per Case</td><td class="right">$0.61</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Annual Spend -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Annual Spend</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>Cost Per Case (w/o Inbound)</td><td class="right">$2.01</td></tr>
+                            <tr><td>Cost Per Case (w/ Inbound)</td><td class="right">$2.62</td></tr>
+                            <tr style="border-top: 2px solid #e0e0e0; padding-top: 8px;"><td><strong>Total w/o Inbound</strong></td><td class="right"><strong>$221,948</strong></td></tr>
+                            <tr style="background: #f0f7ff;"><td><strong>Total w/ Inbound</strong></td><td class="right" style="color: #00446A;"><strong>$289,637</strong></td></tr>
+                        </table>
+                        <div style="margin-top: 16px; padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #666;">
+                            <strong style="display: block; margin-bottom: 4px; color: #333;">Business Mix</strong>
+                            Dry Pallets: 816<br>
+                            Temp Control: 0
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUPERVALU TAB -->
+        <div id="supervalu" class="tab-content">
+            <h2 class="section-title">SuperValu Lane Analysis</h2>
+
+            <div class="overview-grid" style="margin-bottom: 32px;">
+                <div class="card">
+                    <h3>Total Shipments</h3>
+                    <div class="metric">23</div>
+                    <div class="metric-label">Annual volume</div>
+                </div>
+                <div class="card">
+                    <h3>Total Pallets</h3>
+                    <div class="metric">552</div>
+                    <div class="metric-label">Across all lanes</div>
+                </div>
+                <div class="card">
+                    <h3>Total Cost</h3>
+                    <div class="metric">$113,160</div>
+                    <div class="metric-label">Annual spend</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Lane Map - SuperValu Distribution Network</h3>
+                <div style="background: white; padding: 24px; border: 1px solid #e0e0e0; border-radius: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                        <!-- Lane 1 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Louisville, KY</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">360 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Columbus, OH</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">SuperValu DC</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lane 2 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Springerville, UT</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">445 mi</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Denver, CO</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">SuperValu DC</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Lane-by-Lane Breakdown</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th class="right">Shipments</th>
+                            <th class="right">Pallets</th>
+                            <th class="right">Rate per Pallet</th>
+                            <th class="right">Total Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Louisville, KY</td>
+                            <td>SuperValu DC - Columbus, OH</td>
+                            <td class="right">14</td>
+                            <td class="right">336</td>
+                            <td class="right">$200</td>
+                            <td class="right">$67,200</td>
+                        </tr>
+                        <tr>
+                            <td>Springerville, UT</td>
+                            <td>SuperValu DC - Denver, CO</td>
+                            <td class="right">9</td>
+                            <td class="right">216</td>
+                            <td class="right">$213</td>
+                            <td class="right">$45,960</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2"><strong>SuperValu Total</strong></td>
+                            <td class="right"><strong>23</strong></td>
+                            <td class="right"><strong>552</strong></td>
+                            <td class="right">—</td>
+                            <td class="right" style="color: #00446A;"><strong>$113,160</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Cost Breakdown Section -->
+            <div class="card" style="margin-top: 24px;">
+                <h3>Detailed Cost Breakdown</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 16px;">
+                    <!-- Annual Quantity -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Annual Quantity</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>Total Outbound Pallets</td><td class="right"><strong>552</strong></td></tr>
+                            <tr><td>Total Inbound Pallets</td><td class="right"><strong>552</strong></td></tr>
+                            <tr><td>Total Outbound Weight</td><td class="right">894,240 lbs</td></tr>
+                            <tr><td>Total Cases Picked</td><td class="right">74,520</td></tr>
+                            <tr><td>Full Pallet %</td><td class="right" style="background: #fff9e6;">0%</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Warehouse Cost -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Warehouse Cost</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>BOL</td><td class="right">$27,600</td></tr>
+                            <tr><td>Pallet Labeling</td><td class="right">$1,380</td></tr>
+                            <tr><td>Shrink Wrap</td><td class="right">$3,588</td></tr>
+                            <tr><td>In/Out Handling</td><td class="right">$5,244</td></tr>
+                            <tr><td>Case Picking</td><td class="right">$27,563</td></tr>
+                            <tr style="border-top: 2px solid #e0e0e0;"><td><strong>Total Warehouse</strong></td><td class="right"><strong>$76,817</strong></td></tr>
+                            <tr><td style="font-size: 11px; color: #666;">Avg Weeks in Inventory</td><td class="right" style="background: #fff9e6; font-size: 11px;">&lt;4</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Freight Costs -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Freight Cost</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td colspan="2" style="font-weight: 600; padding-top: 8px;">Outbound</td></tr>
+                            <tr><td>Outbound Freight Dry</td><td class="right">$73,219</td></tr>
+                            <tr><td>Per LB</td><td class="right">$0.08</td></tr>
+                            <tr><td>Per Case</td><td class="right">$0.98</td></tr>
+                            <tr><td colspan="2" style="font-weight: 600; padding-top: 12px;">Inbound</td></tr>
+                            <tr><td>Inbound Freight Dry</td><td class="right">$45,762</td></tr>
+                            <tr><td>Per LB</td><td class="right">$0.05</td></tr>
+                            <tr><td>Per Case</td><td class="right">$0.61</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Annual Spend -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Annual Spend</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>Cost Per Case (w/o Inbound)</td><td class="right">$2.02</td></tr>
+                            <tr><td>Cost Per Case (w/ Inbound)</td><td class="right">$2.63</td></tr>
+                            <tr style="border-top: 2px solid #e0e0e0; padding-top: 8px;"><td><strong>Total w/o Inbound</strong></td><td class="right"><strong>$150,036</strong></td></tr>
+                            <tr style="background: #f0f7ff;"><td><strong>Total w/ Inbound</strong></td><td class="right" style="color: #00446A;"><strong>$195,798</strong></td></tr>
+                        </table>
+                        <div style="margin-top: 16px; padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #666;">
+                            <strong style="display: block; margin-bottom: 4px; color: #333;">Business Mix</strong>
+                            Dry Pallets: 552<br>
+                            Temp Control: 0
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTHER RETAILERS TAB -->
+        <div id="other" class="tab-content">
+            <h2 class="section-title">Other Retailers Lane Analysis</h2>
+
+            <div class="overview-grid" style="margin-bottom: 32px;">
+                <div class="card">
+                    <h3>Total Shipments</h3>
+                    <div class="metric">12</div>
+                    <div class="metric-label">Annual volume</div>
+                </div>
+                <div class="card">
+                    <h3>Total Pallets</h3>
+                    <div class="metric">288</div>
+                    <div class="metric-label">Across all lanes</div>
+                </div>
+                <div class="card">
+                    <h3>Total Cost</h3>
+                    <div class="metric">$63,360</div>
+                    <div class="metric-label">Annual spend</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Lane Map - Other Retailers Distribution Network</h3>
+                <div style="background: white; padding: 24px; border: 1px solid #e0e0e0; border-radius: 8px;">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                        <!-- Lane 1 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Fresno, CA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">Varies</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Various DCs</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Multiple locations</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lane 2 -->
+                        <div style="display: flex; align-items: center; padding: 16px; background: #f9f9f9; border-radius: 6px;">
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #fff3e0; border-radius: 6px; border: 2px solid #ff9800;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #333;">Stone Mountain, GA</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Origin</div>
+                                </div>
+                            </div>
+                            <div style="padding: 0 12px;">
+                                <div style="width: 60px; height: 2px; background: #00446A; position: relative;">
+                                    <div style="position: absolute; right: -6px; top: -4px; width: 0; height: 0; border-left: 8px solid #00446A; border-top: 5px solid transparent; border-bottom: 5px solid transparent;"></div>
+                                </div>
+                                <div style="font-size: 10px; color: #666; text-align: center; margin-top: 4px;">Varies</div>
+                            </div>
+                            <div style="flex: 1; text-align: center;">
+                                <div style="display: inline-block; padding: 12px 20px; background: #e3f2fd; border-radius: 6px; border: 2px solid #00446A;">
+                                    <div style="font-size: 13px; font-weight: 600; color: #00446A;">Various DCs</div>
+                                    <div style="font-size: 11px; color: #666; margin-top: 4px;">Multiple locations</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Lane-by-Lane Breakdown</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Origin</th>
+                            <th>Destination</th>
+                            <th class="right">Shipments</th>
+                            <th class="right">Pallets</th>
+                            <th class="right">Rate per Pallet</th>
+                            <th class="right">Total Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Fresno, CA</td>
+                            <td>Various DC Locations</td>
+                            <td class="right">7</td>
+                            <td class="right">168</td>
+                            <td class="right">$225</td>
+                            <td class="right">$37,800</td>
+                        </tr>
+                        <tr>
+                            <td>Stone Mountain, GA</td>
+                            <td>Various DC Locations</td>
+                            <td class="right">5</td>
+                            <td class="right">120</td>
+                            <td class="right">$213</td>
+                            <td class="right">$25,560</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2"><strong>Other Retailers Total</strong></td>
+                            <td class="right"><strong>12</strong></td>
+                            <td class="right"><strong>288</strong></td>
+                            <td class="right">—</td>
+                            <td class="right" style="color: #00446A;"><strong>$63,360</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Cost Breakdown Section -->
+            <div class="card" style="margin-top: 24px;">
+                <h3>Detailed Cost Breakdown</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 16px;">
+                    <!-- Annual Quantity -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Annual Quantity</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>Total Outbound Pallets</td><td class="right"><strong>288</strong></td></tr>
+                            <tr><td>Total Inbound Pallets</td><td class="right"><strong>288</strong></td></tr>
+                            <tr><td>Total Outbound Weight</td><td class="right">466,560 lbs</td></tr>
+                            <tr><td>Total Cases Picked</td><td class="right">38,880</td></tr>
+                            <tr><td>Full Pallet %</td><td class="right" style="background: #fff9e6;">0%</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Warehouse Cost -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Warehouse Cost</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>BOL</td><td class="right">$14,400</td></tr>
+                            <tr><td>Pallet Labeling</td><td class="right">$720</td></tr>
+                            <tr><td>Shrink Wrap</td><td class="right">$1,872</td></tr>
+                            <tr><td>In/Out Handling</td><td class="right">$2,736</td></tr>
+                            <tr><td>Case Picking</td><td class="right">$14,385</td></tr>
+                            <tr style="border-top: 2px solid #e0e0e0;"><td><strong>Total Warehouse</strong></td><td class="right"><strong>$40,113</strong></td></tr>
+                            <tr><td style="font-size: 11px; color: #666;">Avg Weeks in Inventory</td><td class="right" style="background: #fff9e6; font-size: 11px;">&lt;4</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Freight Costs -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Freight Cost</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td colspan="2" style="font-weight: 600; padding-top: 8px;">Outbound</td></tr>
+                            <tr><td>Outbound Freight Dry</td><td class="right">$38,214</td></tr>
+                            <tr><td>Per LB</td><td class="right">$0.08</td></tr>
+                            <tr><td>Per Case</td><td class="right">$0.98</td></tr>
+                            <tr><td colspan="2" style="font-weight: 600; padding-top: 12px;">Inbound</td></tr>
+                            <tr><td>Inbound Freight Dry</td><td class="right">$23,883</td></tr>
+                            <tr><td>Per LB</td><td class="right">$0.05</td></tr>
+                            <tr><td>Per Case</td><td class="right">$0.61</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- Annual Spend -->
+                    <div>
+                        <h4 style="font-size: 14px; font-weight: 600; color: #00446A; margin-bottom: 12px; text-transform: uppercase;">Annual Spend</h4>
+                        <table style="font-size: 13px;">
+                            <tr><td>Cost Per Case (w/o Inbound)</td><td class="right">$2.01</td></tr>
+                            <tr><td>Cost Per Case (w/ Inbound)</td><td class="right">$2.62</td></tr>
+                            <tr style="border-top: 2px solid #e0e0e0; padding-top: 8px;"><td><strong>Total w/o Inbound</strong></td><td class="right"><strong>$78,327</strong></td></tr>
+                            <tr style="background: #f0f7ff;"><td><strong>Total w/ Inbound</strong></td><td class="right" style="color: #00446A;"><strong>$102,210</strong></td></tr>
+                        </table>
+                        <div style="margin-top: 16px; padding: 12px; background: #f5f5f5; border-radius: 4px; font-size: 12px; color: #666;">
+                            <strong style="display: block; margin-bottom: 4px; color: #333;">Business Mix</strong>
+                            Dry Pallets: 288<br>
+                            Temp Control: 0
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FREIGHT SURCHARGE TAB -->
+        <div id="freight-surcharge" class="tab-content">
+            <h2 class="section-title">Freight Surcharge Schedule</h2>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Fuel Surcharge Matrix</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Diesel Price Range (per gallon)</th>
+                            <th class="right">Surcharge %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$3.00 - $3.49</td>
+                            <td class="right">0.0%</td>
+                        </tr>
+                        <tr>
+                            <td>$3.50 - $3.99</td>
+                            <td class="right">2.5%</td>
+                        </tr>
+                        <tr>
+                            <td>$4.00 - $4.49</td>
+                            <td class="right">5.0%</td>
+                        </tr>
+                        <tr>
+                            <td>$4.50 - $4.99</td>
+                            <td class="right">7.5%</td>
+                        </tr>
+                        <tr>
+                            <td>$5.00 - $5.49</td>
+                            <td class="right">10.0%</td>
+                        </tr>
+                        <tr>
+                            <td>$5.50+</td>
+                            <td class="right">12.5%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 16px; padding: 12px; background: #f5f5f5; border-radius: 4px; border-left: 4px solid #00446A;">
+                    <Typography style="font-size: 12px; color: #666;">
+                        <strong>Current Rate:</strong> Fuel surcharge is calculated weekly based on the Department of Energy's U.S. National Average Diesel Price.
+                        Current surcharge: <strong>5.0%</strong> (based on $4.25/gallon)
+                    </Typography>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom: 24px;">
+                <h3>Additional Surcharges</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Surcharge Type</th>
+                            <th>Rate</th>
+                            <th>Application</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Peak Season (Nov - Dec)</td>
+                            <td>$25 per shipment</td>
+                            <td>Applied to all shipments during peak season</td>
+                        </tr>
+                        <tr>
+                            <td>Residential Delivery</td>
+                            <td>$75 per delivery</td>
+                            <td>Non-commercial delivery addresses</td>
+                        </tr>
+                        <tr>
+                            <td>Liftgate Service</td>
+                            <td>$50 per use</td>
+                            <td>When liftgate required at pickup or delivery</td>
+                        </tr>
+                        <tr>
+                            <td>Inside Delivery</td>
+                            <td>$100 per shipment</td>
+                            <td>Delivery beyond loading dock</td>
+                        </tr>
+                        <tr>
+                            <td>Redelivery</td>
+                            <td>100% of original freight</td>
+                            <td>Failed delivery attempts</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>Surcharge Notes</h3>
+                <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Fuel surcharge is updated weekly and invoiced separately from base freight rates</li>
+                    <li>Peak season surcharge applies automatically to all shipments between November 1 and December 31</li>
+                    <li>Multiple surcharges may apply to a single shipment</li>
+                    <li>All surcharges are subject to change with 30 days notice</li>
+                    <li>Contracted rates may have different surcharge structures - please consult your contract</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabId).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
